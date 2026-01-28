@@ -1,7 +1,8 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, redirect, url_for, session
 from database import faq_data
 
 app = Flask(__name__)
+app.secret_key = "supersecretkey"
 
 # ✅ Shared conversation context
 chat_history = []
@@ -10,8 +11,8 @@ chat_history = []
 unresolved_count = 0
 message_count = 0
 
-# ✅ Automation Status Flag (IMPORTANT)
-automation_active = True   # Bot works initially
+# ✅ Automation Status Flag
+automation_active = True
 
 # ✅ Frustration Keywords
 frustration_words = [
@@ -20,17 +21,54 @@ frustration_words = [
     "real person", "complaint"
 ]
 
+# ✅ Agent Login Credentials (Demo)
+AGENT_USERNAME = "agent"
+AGENT_PASSWORD = "1234"
 
-# ---------------- HOME PAGE ----------------
+
+# ---------------- USER HOME (RESET CHAT ON REOPEN) ----------------
 @app.route("/")
 def home():
+    global chat_history, unresolved_count, message_count, automation_active
+
+    # ✅ Reset conversation every time user opens chatbot page
+    chat_history = []
+    unresolved_count = 0
+    message_count = 0
+    automation_active = True
+
     return render_template("index.html")
 
 
-# ---------------- AGENT PANEL ----------------
+# ---------------- LOGIN PAGE ----------------
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+
+        if username == AGENT_USERNAME and password == AGENT_PASSWORD:
+            session["agent_logged_in"] = True
+            return redirect(url_for("agent_panel"))
+        else:
+            return render_template("login.html", error="Invalid Credentials!")
+
+    return render_template("login.html")
+
+
+# ---------------- AGENT PANEL (PROTECTED) ----------------
 @app.route("/agent")
-def agent():
+def agent_panel():
+    if not session.get("agent_logged_in"):
+        return redirect(url_for("login"))
     return render_template("agent.html")
+
+
+# ---------------- LOGOUT ----------------
+@app.route("/logout")
+def logout():
+    session.pop("agent_logged_in", None)
+    return redirect(url_for("login"))
 
 
 # ---------------- MAIN CHAT API ----------------
@@ -43,10 +81,10 @@ def chat():
     # ✅ Store user message
     chat_history.append({"sender": "User", "message": user_msg})
 
-    # ✅ If automation is OFF → Direct to human only
+    # ✅ If automation already terminated → Human only
     if not automation_active:
         return jsonify({
-            "reply": "✅ Chat is now handled by Human Agent.",
+            "reply": "✅ Chat is now handled only by Human Agent.",
             "transfer": True
         })
 
@@ -59,7 +97,7 @@ def chat():
     # ✅ Store bot reply
     chat_history.append({"sender": "Bot", "message": bot_reply})
 
-    # ✅ If transfer happens → STOP automation permanently
+    # ✅ If transfer happens → terminate automation
     if transfer:
         automation_active = False
         chat_history.append({
@@ -70,7 +108,7 @@ def chat():
     return jsonify({"reply": bot_reply, "transfer": transfer})
 
 
-# ---------------- ADAPTIVE DECISION FUNCTION ----------------
+# ---------------- ADAPTIVE DECISION INTELLIGENCE ----------------
 def adaptive_response(user_msg):
     global unresolved_count, message_count
 
@@ -99,7 +137,7 @@ def adaptive_response(user_msg):
         return ("This issue appears complex or unresolved. "
                 "Escalating to human support with full context ✅"), True
 
-    # ✅ 6. Escalation after long conversation
+    # ✅ 6. Escalation after long conversation length
     if message_count >= 6:
         return ("This conversation is taking longer than expected. "
                 "Transferring to a human agent for faster resolution ✅"), True
@@ -120,6 +158,7 @@ def get_chat():
 def human_reply():
     agent_msg = request.json["reply"]
 
+    # ✅ Store agent reply in same conversation
     chat_history.append({"sender": "Agent", "message": agent_msg})
 
     return jsonify({"status": "sent"})
@@ -128,3 +167,4 @@ def human_reply():
 # ---------------- RUN APPLICATION ----------------
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
+
