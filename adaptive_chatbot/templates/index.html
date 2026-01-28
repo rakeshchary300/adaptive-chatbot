@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Adaptive AI Chatbot</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+<div class="chat-container">
+    <div class="chat-header">🤖 Adaptive AI Chatbot</div>
+
+    <div id="chatbox" class="chat-box"></div>
+
+    <div class="chat-input">
+        <input type="text" id="msg" placeholder="Type your message...">
+        <button onclick="sendMsg()">Send</button>
+    </div>
+</div>
+
+<script>
+    function sendMsg() {
+        let message = document.getElementById("msg").value;
+        if(message.trim() === "") return;
+
+        fetch("/chat", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({message: message})
+        });
+
+        document.getElementById("msg").value = "";
+    }
+
+    // ✅ Load chat continuously
+    function loadChat() {
+        fetch("/get_chat")
+        .then(res => res.json())
+        .then(data => {
+            let chatbox = document.getElementById("chatbox");
+            chatbox.innerHTML = "";
+
+            data.forEach(chat => {
+                if(chat.sender === "User"){
+                    chatbox.innerHTML += `
+                        <div class="user-msg"><span>${chat.message}</span></div>`;
+                } else {
+                    chatbox.innerHTML += `
+                        <div class="bot-msg"><span>${chat.sender}: ${chat.message}</span></div>`;
+                }
+            });
+
+            chatbox.scrollTop = chatbox.scrollHeight;
+        });
+    }
+
+    setInterval(loadChat, 1000);
+</script>
+
+</body>
+</html>
