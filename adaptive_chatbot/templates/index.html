@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Adaptive AI Chatbot</title>
+    <title>BIET Support Bot</title>
     <link rel="stylesheet" href="/static/style.css">
 </head>
 
 <body>
 
 <div class="chat-container">
-    <div class="chat-header">🤖 Adaptive AI Chatbot</div>
+    <div class="chat-header">🤖 BIET Support Bot (JNTUH)</div>
 
     <div id="chatbox" class="chat-box"></div>
 
@@ -19,6 +19,7 @@
 </div>
 
 <script>
+    // ✅ Send Message
     function sendMsg() {
         let message = document.getElementById("msg").value;
         if(message.trim() === "") return;
@@ -32,7 +33,7 @@
         document.getElementById("msg").value = "";
     }
 
-    // ✅ Load chat continuously
+    // ✅ Load Chat Continuously
     function loadChat() {
         fetch("/get_chat")
         .then(res => res.json())
@@ -43,10 +44,16 @@
             data.forEach(chat => {
                 if(chat.sender === "User"){
                     chatbox.innerHTML += `
-                        <div class="user-msg"><span>${chat.message}</span></div>`;
-                } else {
+                        <div class="user-msg">
+                            <span>${chat.message}</span>
+                        </div>`;
+                } 
+                else {
+                    // ✅ FIX: Convert \n into <br>
                     chatbox.innerHTML += `
-                        <div class="bot-msg"><span>${chat.sender}: ${chat.message}</span></div>`;
+                        <div class="bot-msg">
+                            <span>${chat.sender}: ${chat.message.replace(/\n/g, "<br>")}</span>
+                        </div>`;
                 }
             });
 
