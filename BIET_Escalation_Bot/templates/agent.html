@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Human Agent Panel</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="chat-container">
+  <div class="chat-header">👨‍💻 Human Support Agent Panel</div>
+
+  <div id="chatbox" class="chat-box"></div>
+
+  <div class="chat-input">
+    <input type="text" id="reply" placeholder="Type agent reply...">
+    <button onclick="sendReply()">Send</button>
+  </div>
+</div>
+
+<script>
+function sendReply(){
+  let msg=document.getElementById("reply").value;
+  if(msg.trim()==="") return;
+
+  fetch("/human_reply", {
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({reply:msg})
+  });
+
+  document.getElementById("reply").value="";
+}
+
+function loadChat(){
+  fetch("/get_chat")
+    .then(r=>r.json())
+    .then(data=>{
+      let box=document.getElementById("chatbox");
+      box.innerHTML="";
+
+      data.forEach(chat=>{
+        let cls="bot";
+        if(chat.sender==="Agent") cls="user";
+        if(chat.sender==="System") cls="system";
+
+        box.innerHTML += `
+          <div class="message ${cls}">
+            <b>${chat.sender}:</b><br>
+            ${chat.message.replace(/\n/g,"<br>")}
+          </div>
+        `;
+      });
+
+      box.scrollTop = box.scrollHeight;
+    });
+}
+
+setInterval(loadChat,1000);
+</script>
+
+</body>
+</html>

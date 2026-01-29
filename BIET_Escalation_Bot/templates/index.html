@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>BIET Support Bot</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="chat-container">
+  <div class="chat-header">🤖 BIET Student Support Bot (JNTUH)</div>
+
+  <div id="chatbox" class="chat-box"></div>
+
+  <div class="chat-input">
+    <input type="text" id="msg" placeholder="Type option (1–6)...">
+    <button onclick="sendMsg()">Send</button>
+  </div>
+</div>
+
+<script>
+function sendMsg(){
+  let m = document.getElementById("msg").value;
+  if(m.trim()==="") return;
+
+  fetch("/chat", {
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({message:m})
+  });
+
+  document.getElementById("msg").value="";
+}
+
+function loadChat(){
+  fetch("/get_chat")
+    .then(r=>r.json())
+    .then(data=>{
+      let box=document.getElementById("chatbox");
+      box.innerHTML="";
+
+      data.forEach(chat=>{
+        let cls="bot";
+        if(chat.sender==="User") cls="user";
+        if(chat.sender==="System") cls="system";
+
+        box.innerHTML += `
+          <div class="message ${cls}">
+            ${chat.message.replace(/\n/g,"<br>")}
+          </div>
+        `;
+      });
+
+      box.scrollTop = box.scrollHeight;
+    });
+}
+
+setInterval(loadChat,1000);
+</script>
+
+</body>
+</html>

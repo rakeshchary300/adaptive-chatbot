@@ -1,0 +1,128 @@
+body {
+  margin: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: linear-gradient(to right, #dbeafe, #f0f9ff);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Main Card */
+.chat-container {
+  width: 460px;
+  height: 650px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Header */
+.chat-header {
+  background: linear-gradient(to right, #2563eb, #1e40af);
+  color: white;
+  padding: 18px;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Chat Box */
+.chat-box {
+  flex: 1;
+  padding: 15px;
+  overflow-y: auto;
+  background: #f9fafb;
+}
+
+/* Message Common */
+.message {
+  max-width: 75%;
+  padding: 12px 15px;
+  border-radius: 16px;
+  margin: 10px 0;
+  line-height: 1.4;
+  font-size: 14px;
+  word-wrap: break-word;
+}
+
+/* User Bubble */
+.user {
+  background: #2563eb;
+  color: white;
+  margin-left: auto;
+  border-bottom-right-radius: 4px;
+}
+
+/* Bot Bubble */
+.bot {
+  background: #e5e7eb;
+  color: #111827;
+  margin-right: auto;
+  border-bottom-left-radius: 4px;
+}
+
+/* System Bubble */
+.system {
+  background: #facc15;
+  color: black;
+  font-weight: bold;
+  text-align: center;
+  margin: auto;
+}
+
+/* Input Area */
+.chat-input {
+  display: flex;
+  border-top: 1px solid #ddd;
+}
+
+.chat-input input {
+  flex: 1;
+  padding: 14px;
+  border: none;
+  font-size: 15px;
+  outline: none;
+}
+
+.chat-input button {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 14px 20px;
+  cursor: pointer;
+  font-size: 15px;
+  transition: 0.3s;
+}
+
+.chat-input button:hover {
+  background: #1e3a8a;
+}
+
+/* Dashboard Card */
+.dashboard-card {
+  background: white;
+  padding: 20px;
+  border-radius: 16px;
+  margin: 15px auto;
+  width: 70%;
+  box-shadow: 0px 5px 15px rgba(0,0,0,0.15);
+}
+
+.health-bar {
+  height: 18px;
+  border-radius: 10px;
+  background: #e5e7eb;
+  overflow: hidden;
+  margin-top: 10px;
+}
+
+.health-fill {
+  height: 100%;
+  background: #2563eb;
+  width: 100%;
+  transition: 0.5s;
+}
