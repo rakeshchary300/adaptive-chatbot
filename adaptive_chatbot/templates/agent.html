@@ -19,6 +19,7 @@
 </div>
 
 <script>
+    // ✅ Send Reply
     function sendReply() {
         let reply = document.getElementById("reply").value;
         if(reply.trim() === "") return;
@@ -32,6 +33,7 @@
         document.getElementById("reply").value = "";
     }
 
+    // ✅ Load Chat Continuously
     function loadChat() {
         fetch("/get_chat")
         .then(res => res.json())
@@ -42,10 +44,16 @@
             data.forEach(chat => {
                 if(chat.sender === "Agent"){
                     box.innerHTML += `
-                        <div class="user-msg"><span>${chat.message}</span></div>`;
-                } else {
+                        <div class="user-msg">
+                            <span>${chat.message}</span>
+                        </div>`;
+                } 
+                else {
+                    // ✅ FIX: Convert \n into <br>
                     box.innerHTML += `
-                        <div class="bot-msg"><span>${chat.sender}: ${chat.message}</span></div>`;
+                        <div class="bot-msg">
+                            <span>${chat.sender}: ${chat.message.replace(/\n/g, "<br>")}</span>
+                        </div>`;
                 }
             });
 
