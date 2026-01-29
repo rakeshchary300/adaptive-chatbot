@@ -1,0 +1,37 @@
+{
+  "menu": {
+    "1": "Exam Information",
+    "2": "Results / Memos",
+    "3": "Placement Support",
+    "4": "Fee / Academics",
+    "5": "Contact College Office",
+    "6": "Talk to Human Agent"
+  },
+
+  "answers": {
+    "exam": {
+      "info": "📌 Exams are conducted as per JNTUH schedule. Please check the official notice board or exam cell updates.",
+      "dates": "🗓 Exam dates will be updated once timetable is released by BIET Exam Branch."
+    },
+
+    "results": {
+      "info": "📄 Results and memos are released on the JNTUH official results portal.",
+      "memo": "✅ If you need your memo, contact the Examination Section or apply through student portal."
+    },
+
+    "placements": {
+      "info": "🎓 Placement training and drives are handled by the BIET Training & Placement Cell.",
+      "contact": "📞 You can contact Placement Officer through college office."
+    },
+
+    "fees": {
+      "info": "💰 Fee payment details are available in BIET Accounts Section or student login portal.",
+      "deadline": "⚠ Fee deadlines are announced semester-wise."
+    },
+
+    "contact": {
+      "info": "🏫 Bharat Institute of Engineering and Technology (BIET), Hyderabad under JNTUH.",
+      "office": "📍 Contact college office for official support."
+    }
+  }
+}
