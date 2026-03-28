@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Automation Dashboard</title>
+  <style>
+    body {
+      font-family: Arial;
+      background: #f4f6ff;
+      padding: 30px;
+    }
+
+    .card {
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      width: 600px;
+      box-shadow: 0px 6px 18px rgba(0,0,0,0.2);
+    }
+
+    .bar {
+      height: 22px;
+      background: #ddd;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+
+    .fill {
+      height: 100%;
+      background: #2563eb;
+      width: 100%;
+      transition: 0.5s;
+    }
+
+    ul {
+      padding-left: 20px;
+    }
+
+    li {
+      margin: 6px 0;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+<div class="card">
+  <h2>📊 Automation Intelligence Dashboard</h2>
+
+  <h3 id="time"></h3>
+
+  <p><b>Automation Confidence Remaining:</b>
+    <span id="health"></span>%
+  </p>
+
+  <div class="bar">
+    <div id="fill" class="fill"></div>
+  </div>
+
+  <p><b>Current Mode:</b> <span id="mode"></span></p>
+
+  <h3>⚡ Active Signals Affecting Confidence</h3>
+  <ul id="signals"></ul>
+
+</div>
+
+<script>
+function update() {
+  document.getElementById("time").innerText =
+    "Live Time: " + new Date().toLocaleString();
+
+  fetch("/engine_status")
+    .then(r => r.json())
+    .then(d => {
+      document.getElementById("health").innerText = d.health;
+      document.getElementById("fill").style.width = d.health + "%";
+      document.getElementById("mode").innerText = d.mode;
+
+      let ul = document.getElementById("signals");
+      ul.innerHTML = "";
+      d.signals.forEach(s => {
+        ul.innerHTML += "<li>🔻 " + s + "</li>";
+      });
+    });
+}
+setInterval(update, 1000);
+</script>
+</body>
+</html>
