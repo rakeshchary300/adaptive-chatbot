@@ -1,0 +1,37 @@
+{
+  "menu": {
+    "1": "Exam Information",
+    "2": "Results / Memos",
+    "3": "Placement Support",
+    "4": "Fees & Academics",
+    "5": "Contact College Office",
+    "6": "Talk to Human Agent",
+    "7": "Other (Free Text Support)"
+  },
+
+  "answers": {
+    "3": "🎓 Placements are handled by BIET Training & Placement Cell.",
+    "5": "🏫 Bharat Institute of Engineering and Technology (BIET), Hyderabad under JNTUH.",
+    "6": "✅ Connecting you to a Human Support Agent..."
+  },
+
+  "submenus": {
+    "1": {
+      "1.1": "Exam Timetable (Not Released Yet)",
+      "1.2": "Exam Fee Payment Info",
+      "1.3": "Hall Ticket Updates"
+    },
+    "2": {
+      "2.1": "Upcoming Results Date (Yet to Announce)",
+      "2.2": "Previous Results Portal Info",
+      "2.3": "Memo Status Help"
+    },
+    "4": {
+      "4.1": "Fee Deadlines (Not Announced Yet)",
+      "4.2": "Scholarship Info",
+      "4.3": "Payment Issues Support"
+    }
+  },
+
+  "submenu_excuse": "⚠ Currently, this information is not updated in our system. BIET will announce it shortly. Please check official notifications or contact support."
+}

@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>BIET Premium Support Hub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<header class="navbar">
+  <div class="brand">
+    <div class="brand-icon">🎓</div>
+    <div class="brand-text">BIET Support Hub</div>
+  </div>
+  
+  <div class="hamburger" onclick="toggleMenu()" id="hamburgerBtn">
+    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </div>
+  
+  <!-- Dropdown Nav -->
+  <nav class="dropdown-menu" id="dropdownMenu">
+    <a href="#" onclick="switchView('chatbot', event)" class="menu-item active" id="nav-chatbot">
+      <span>🤖</span> Chatbot
+    </a>
+    <a href="#" onclick="switchView('dashboard', event)" class="menu-item" id="nav-dashboard">
+      <span>📊</span> Dashboard
+    </a>
+    <a href="#" onclick="switchView('agent', event)" class="menu-item" id="nav-agent">
+      <span>👨‍💻</span> Human Agent
+    </a>
+  </nav>
+</header>
+
+<main class="main-container">
+
+  <!-- ==================== VIEW 1: CHATBOT ==================== -->
+  <section id="view-chatbot" class="view-panel active">
+    <div class="chat-container glass-panel">
+      <div class="chat-header">
+        <div>🤖 Student Support Bot (JNTUH)</div>
+        <div class="status-indicator online">Online</div>
+      </div>
+      <div id="user-chatbox" class="chat-box"></div>
+      <div class="chat-input-wrapper">
+        <input type="text" id="user-msg" placeholder="Type option (1–6) or ask freely..." onkeypress="handleEnter(event, 'user')">
+        <button class="send-btn" onclick="sendMsg('user')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ==================== VIEW 2: DASHBOARD ==================== -->
+  <section id="view-dashboard" class="view-panel">
+    <div class="dashboard-container glass-panel">
+      <div class="dashboard-header">
+        <h2>📊 Automation Intelligence</h2>
+        <div class="live-clock" id="live-time"></div>
+      </div>
+      
+      <div class="dashboard-card">
+        <div class="confidence-info">
+          <span>Automation Confidence</span>
+          <span class="confidence-value"><span id="health-val">100</span>%</span>
+        </div>
+        <div class="progress-bar-bg">
+          <div id="health-fill" class="progress-bar-fill"></div>
+        </div>
+      </div>
+      
+      <div class="dashboard-card mode-card">
+        <div class="mode-info">
+          <span>Current Mode</span>
+          <span class="badge" id="bot-mode">MENU</span>
+        </div>
+      </div>
+
+      <div class="dashboard-card signals-card">
+        <h3>⚡ Active Signals Affecting Confidence</h3>
+        <ul id="signals-list" class="signals-list">
+          <li class="empty-signal">No active negative signals.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ==================== VIEW 3: HUMAN AGENT ==================== -->
+  <section id="view-agent" class="view-panel">
+    <div class="chat-container glass-panel agent-theme">
+      <div class="chat-header">
+        <div>👨‍💻 Agent Terminal</div>
+        <div class="status-indicator secure">Secure Connect</div>
+      </div>
+      <div id="agent-chatbox" class="chat-box"></div>
+      <div class="chat-input-wrapper">
+        <input type="text" id="agent-reply" placeholder="Type agent response to user..." onkeypress="handleEnter(event, 'agent')">
+        <button class="send-btn agent-btn" onclick="sendMsg('agent')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+
+<!-- JavaScript Logic -->
+<script>
+  let activeView = 'chatbot';
+
+  // --- UI Interactions ---
+  function toggleMenu() {
+    const menu = document.getElementById('dropdownMenu');
+    menu.classList.toggle('show');
+  }
+
+  // Close menu if clicking outside
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('#hamburgerBtn') && !e.target.closest('#dropdownMenu')) {
+      document.getElementById('dropdownMenu').classList.remove('show');
+    }
+  });
+
+  function switchView(viewName, event) {
+    if(event) event.preventDefault();
+    document.getElementById('dropdownMenu').classList.remove('show');
+    
+    // Hide all panels
+    document.querySelectorAll('.view-panel').forEach(el => el.classList.remove('active'));
+    // Remove active state from nav items
+    document.querySelectorAll('.menu-item').forEach(el => el.classList.remove('active'));
+    
+    // Show selected panel
+    document.getElementById('view-' + viewName).classList.add('active');
+    document.getElementById('nav-' + viewName).classList.add('active');
+    
+    activeView = viewName;
+    
+    // Scroll chats to bottom if switching to them
+    if(viewName === 'chatbot') scrollToBottom('user-chatbox');
+    if(viewName === 'agent') scrollToBottom('agent-chatbox');
+  }
+
+  function handleEnter(e, type) {
+    if(e.key === 'Enter') {
+      sendMsg(type);
+    }
+  }
+
+  function scrollToBottom(id) {
+    let box = document.getElementById(id);
+    if(box) box.scrollTop = box.scrollHeight;
+  }
+
+  // --- API Integrations ---
+  function sendMsg(type) {
+    if (type === 'user') {
+      let input = document.getElementById("user-msg");
+      let m = input.value;
+      if(m.trim() === "") return;
+
+      fetch("/chat", {
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({message:m})
+      }).then(() => {
+        // Force immediate chat refresh
+        fetchChatHistory();
+      });
+      input.value = "";
+    } 
+    else if (type === 'agent') {
+      let input = document.getElementById("agent-reply");
+      let m = input.value;
+      if(m.trim() === "") return;
+
+      fetch("/human_reply", {
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({reply:m})
+      }).then(() => {
+        // Force immediate chat refresh
+        fetchChatHistory();
+      });
+      input.value = "";
+    }
+  }
+
+  let lastChatLength = 0;
+
+  function fetchChatHistory() {
+    fetch("/get_chat")
+      .then(r => r.json())
+      .then(data => {
+        // Only update DOM if new messages exist to prevent scroll jumping
+        if (data.length === lastChatLength) return;
+        lastChatLength = data.length;
+
+        let userBox = document.getElementById("user-chatbox");
+        let agentBox = document.getElementById("agent-chatbox");
+        
+        let userHtml = "";
+        let agentHtml = "";
+
+        data.forEach(chat => {
+          let userCls = "bubble bot";
+          let agentCls = "bubble bot"; // For agent view, bot is the system/bot
+          let isSystem = false;
+          
+          if(chat.sender === "User") {
+            userCls = "bubble user";
+            agentCls = "bubble user"; // Agent sees user as grey bubble
+          } else if(chat.sender === "System") {
+            userCls = "bubble system";
+            agentCls = "bubble system";
+            isSystem = true;
+          } else if(chat.sender === "Agent") {
+            userCls = "bubble bot agent-reply"; // Show agent reply differently in user view
+            agentCls = "bubble user agent-reply"; // Agent sees their own as user bubble
+          }
+
+          let formattedMsg = chat.message.replace(/\n/g, "<br>");
+          
+          // User View Box
+          let senderLabelUser = "";
+          if(chat.sender === "Agent") senderLabelUser = `<div class="sender-label">👨‍💻 Agent</div>`;
+          else if(chat.sender === "System") senderLabelUser = `<div class="sender-label">⚠️ System</div>`;
+          else if(chat.sender === "Bot") senderLabelUser = `<div class="sender-label">🤖 Bot</div>`;
+          
+          userHtml += `<div class="${userCls}">${senderLabelUser}<div>${formattedMsg}</div></div>`;
+          
+          // Agent View Box (shows who is talking clearly)
+          let senderLabelAgent = `<div class="sender-label">${chat.sender}</div>`;
+          agentHtml += `<div class="${agentCls}">${senderLabelAgent}<div>${formattedMsg}</div></div>`;
+        });
+
+        userBox.innerHTML = userHtml;
+        agentBox.innerHTML = agentHtml;
+
+        scrollToBottom("user-chatbox");
+        scrollToBottom("agent-chatbox");
+      });
+  }
+
+  // Fetch Dashboard logic
+  function fetchDashboardStatus() {
+    // Only poll dashboard if it's the active view to save performance, 
+    // or just run it to keep it fully updated at all times.
+    document.getElementById("live-time").innerText = new Date().toLocaleTimeString();
+
+    fetch("/engine_status")
+      .then(r => r.json())
+      .then(d => {
+        document.getElementById("health-val").innerText = d.health;
+        
+        let bar = document.getElementById("health-fill");
+        bar.style.width = Math.max(0, d.health) + "%";
+        
+        // Change color based on health
+        if(d.health > 70) bar.style.background = "#10b981"; // Green
+        else if(d.health > 30) bar.style.background = "#f59e0b"; // Yellow
+        else bar.style.background = "#ef4444"; // Red
+
+        document.getElementById("bot-mode").innerText = d.mode.toUpperCase();
+
+        let ul = document.getElementById("signals-list");
+        if(d.signals.length === 0) {
+          ul.innerHTML = "<li class='empty-signal'>🟢 No active negative signals.</li>";
+        } else {
+          ul.innerHTML = "";
+          d.signals.forEach(s => {
+            ul.innerHTML += "<li><span class='alert-icon'>🔻</span> " + s + "</li>";
+          });
+        }
+      });
+  }
+
+  // Standard polling Loop
+  setInterval(() => {
+    // We poll both so the data is always fresh when switching tabs
+    fetchChatHistory();
+    if(activeView === 'dashboard') {
+      fetchDashboardStatus();
+    }
+  }, 1000);
+
+  // Initial loads
+  fetchChatHistory();
+  fetchDashboardStatus();
+
+</script>
+
+</body>
+</html>
