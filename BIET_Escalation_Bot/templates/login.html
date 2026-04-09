@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent Login - BIET Support Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+    <!-- Lucide Icons Library -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+<header class="navbar">
+    <div class="brand">
+        <a href="/" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 12px;">
+            <div class="brand-icon"><i data-lucide="graduation-cap"></i></div>
+            <div class="brand-text">BIET Support Hub</div>
+        </a>
+    </div>
+</header>
+
+<main class="login-container">
+    <div class="login-card">
+        <div class="brand-icon" style="display: inline-block; margin-bottom: 20px; font-size: 2rem; padding: 15px;">
+            <i data-lucide="shield-check" style="width: 40px; height: 40px; color: var(--primary);"></i>
+        </div>
+        <h2>Agent Login</h2>
+        
+        {% if error %}
+        <div class="error-msg">
+            {{ error }}
+        </div>
+        {% endif %}
+
+        <form class="login-form" method="POST">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Enter 'admin'" required autofocus>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter 'admin'" required>
+            </div>
+
+            <button type="submit" class="login-btn">Login to Terminal</button>
+        </form>
+        
+        <p style="margin-top: 24px; font-size: 0.85rem; color: var(--text-muted);">
+            Authorized access only. Use your BIET agent credentials.
+        </p>
+    </div>
+</main>
+
+<script>
+    // Initialize Lucide Icons
+    lucide.createIcons();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,141 @@
+{
+  "faq": {
+    "fee_issue": {
+      "questions": [
+        "fee not updated",
+        "payment not showing",
+        "paid but not updated",
+        "fee problem",
+        "tuition fee deadline",
+        "how to pay fees",
+        "online payment failure",
+        "receipt not generated",
+        "fee structure for btech",
+        "scholarship adjustment in fees",
+        "college cost",
+        "tuition price",
+        "how much is the fee"
+      ],
+      "answer": "Fee updates usually take 2-3 working days to reflect. If it's been longer, please visit the accounts department with your transaction ID or email accounts@biet.ac.in."
+    },
+    "hall_ticket": {
+      "questions": [
+        "hall ticket download",
+        "hall ticket not generated",
+        "where is hall ticket",
+        "exam admit card",
+        "download admit card",
+        "hall ticket error",
+        "not able to download hall ticket",
+        "jntuh hall ticket"
+      ],
+      "answer": "Hall tickets can be downloaded from the student portal 3-5 days before the exams start. Ensure your dues are cleared and attendance is above 75%."
+    },
+    "exam_info": {
+      "questions": [
+        "exam timetable",
+        "when are exams",
+        "mid exam dates",
+        "semester exam schedule",
+        "exam registration",
+        "supplementary exams",
+        "exam fee deadline",
+        "exam notification"
+      ],
+      "answer": "Exam schedules are posted on the official BIET notice board and website. Mid-exams usually occur in the 8th and 16th weeks of the semester."
+    },
+    "results": {
+      "questions": [
+        "result date",
+        "when results will come",
+        "check my marks",
+        "semester results",
+        "jntuh results portal",
+        "revaluation process",
+        "recounting marks",
+        "backlog results"
+      ],
+      "answer": "Results are typically announced by JNTUH 45-60 days after the last exam. You can check them on the JNTUH results portal or the college notice board."
+    },
+    "placement": {
+      "questions": [
+        "placement cell",
+        "job opportunities",
+        "campus drives",
+        "internship help",
+        "placement training",
+        "highest package",
+        "companies visiting",
+        "tpo contact"
+      ],
+      "answer": "The Training & Placement (T&P) cell is located in the Main Block. They coordinate all campus drives and provide CRT training to final-year students."
+    },
+    "admission": {
+      "questions": [
+        "admission process",
+        "how to join biet",
+        "management quota",
+        "eamcet code",
+        "cutoff marks",
+        "courses offered",
+        "btech branches",
+        "mtech admission"
+      ],
+      "answer": "BIET offers B.Tech in CSE, ECE, EEE, Civil, and Mechanical. Admissions are primarily through TS EAMCET (College Code: BIET)."
+    },
+    "hostel": {
+      "questions": [
+        "hostel facility",
+        "hostel fees",
+        "is there a hostel",
+        "girls hostel",
+        "boys hostel",
+        "hostel food",
+        "hostel room availability"
+      ],
+      "answer": "BIET provides separate hostel facilities for boys and girls with 24/7 security and hygienic food. Contact the hostel warden at the campus office for registration."
+    },
+    "certificates": {
+      "questions": [
+        "bonafide certificate",
+        "original memos",
+        "provisional certificate",
+        "custodian certificate",
+        "transfer certificate",
+        "study certificate",
+        "apply for memos"
+      ],
+      "answer": "Requests for certificates (Bonafide, TC, etc.) should be submitted at the administrative office counter between 10 AM and 4 PM."
+    },
+    "library": {
+      "questions": [
+        "library timings",
+        "book renewal",
+        "digital library",
+        "fine for late return",
+        "borrow books",
+        "library card"
+      ],
+      "answer": "The Central Library is open from 9 AM to 6 PM. Students can borrow up to 3 books for 14 days. Fine for late return is ₹1 per day."
+    },
+    "attendance": {
+      "questions": [
+        "check attendance",
+        "low attendance",
+        "attendance percentage",
+        "condonation fee",
+        "shortage of attendance",
+        "medical leave"
+      ],
+      "answer": "A minimum of 75% attendance is required to appear for exams. Shortages between 65-75% may be condoned with a valid medical certificate and fee."
+    }
+  },
+  "menu": {
+    "1": "Exam Information",
+    "2": "Results / Memos",
+    "3": "Placement Support",
+    "4": "Fees & Academics",
+    "5": "Contact College Office",
+    "6": "Other (Ask Freely)"
+  }
+}
